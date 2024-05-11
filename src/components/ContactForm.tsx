@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button, TextField, Card, Typography } from "@mui/material";
 import {
   ContactRequestModal,
@@ -6,7 +6,6 @@ import {
 } from "../modal/ContactModal";
 import axios from "axios";
 import { emptyContact, useContactContext } from "../App";
-import { error } from "console";
 
 function ContactForm() {
   const [contactName, setContactName] = useState("");
