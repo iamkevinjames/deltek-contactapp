@@ -22,7 +22,7 @@ function DialogBox() {
         <DialogTitle>Alert</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Please enter all reuired fields.
+            Some fields are incomplete. Kindly fill all the required fields
           </DialogContentText>
         </DialogContent>
         <DialogActions>

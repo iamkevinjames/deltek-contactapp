@@ -29,21 +29,25 @@ function ContactForm() {
       location: location,
     };
     if (contactName && contactNumber && location) {
-      axios({
-        url: `https://localhost:7232/${
-          currentContact?.id ? "updateContact" : "addContact"
-        }`,
-        method: currentContact?.id ? "PUT" : "POST",
-        data: currentContact?.id ? updateContact : createContact,
-      })
-        .then((response) => {
-          setContactList(response.data);
-          setContactName("");
-          setContactNumber("");
-          setLocation("");
-          setCurrentContact(emptyContact);
+      if (contactNumber.length === 10) {
+        axios({
+          url: `https://localhost:7232/${
+            currentContact?.id ? "updateContact" : "addContact"
+          }`,
+          method: currentContact?.id ? "PUT" : "POST",
+          data: currentContact?.id ? updateContact : createContact,
         })
-        .catch((error) => console.log(error));
+          .then((response) => {
+            setContactList(response.data);
+            setContactName("");
+            setContactNumber("");
+            setLocation("");
+            setCurrentContact(emptyContact);
+          })
+          .catch((error) => console.log(error));
+      } else {
+        setOpen(true);
+      }
     } else {
       setOpen(true);
     }
@@ -66,6 +70,7 @@ function ContactForm() {
             type="text"
             label="Name"
             variant="standard"
+            required={true}
             InputLabelProps={{
               shrink: true,
             }}
@@ -76,6 +81,7 @@ function ContactForm() {
             type="text"
             label="Mobile Number"
             variant="standard"
+            required={true}
             InputLabelProps={{
               shrink: true,
             }}
@@ -97,6 +103,7 @@ function ContactForm() {
             type="text"
             label="Location"
             variant="standard"
+            required={true}
             InputLabelProps={{
               shrink: true,
             }}
