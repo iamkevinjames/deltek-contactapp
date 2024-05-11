@@ -6,13 +6,14 @@ import {
 } from "../modal/ContactModal";
 import axios from "axios";
 import { emptyContact, useContactContext } from "../App";
+import { error } from "console";
 
 function ContactForm() {
   const [contactName, setContactName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [location, setLocation] = useState("");
 
-  const { setContactList, currentContact, setCurrentContact } =
+  const { setContactList, currentContact, setCurrentContact, setOpen } =
     useContactContext();
 
   const addContact = () => {
@@ -34,15 +35,17 @@ function ContactForm() {
         }`,
         method: currentContact?.id ? "PUT" : "POST",
         data: currentContact?.id ? updateContact : createContact,
-      }).then((response) => {
-        setContactList(response.data);
-        setContactName("");
-        setContactNumber("");
-        setLocation("");
-        setCurrentContact(emptyContact);
-      });
+      })
+        .then((response) => {
+          setContactList(response.data);
+          setContactName("");
+          setContactNumber("");
+          setLocation("");
+          setCurrentContact(emptyContact);
+        })
+        .catch((error) => console.log(error));
     } else {
-      alert("enter details");
+      setOpen(true);
     }
   };
 
@@ -77,7 +80,18 @@ function ContactForm() {
               shrink: true,
             }}
             value={contactNumber}
-            onChange={(event) => setContactNumber(event.target.value)}
+            onChange={(event) =>
+              setContactNumber(() => {
+                if (
+                  (event.target.value === "" ||
+                    !Number.isNaN(parseInt(event.target.value))) &&
+                  (contactNumber.length < 10 || event.target.value.length < 10)
+                ) {
+                  return event.target.value;
+                }
+                return contactNumber;
+              })
+            }
           />
           <TextField
             type="text"

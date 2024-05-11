@@ -42,10 +42,12 @@ function Contacts() {
     const contacts = axios({
       url: "https://localhost:7232/getContactsList",
       method: "GET",
-    }).then((response) => {
-      setContactList(response.data);
-      return response;
-    });
+    })
+      .then((response) => {
+        setContactList(response.data);
+        return response;
+      })
+      .catch((error) => console.log(error));
 
     console.log(contacts);
   }, [setContactList]);
@@ -58,13 +60,15 @@ function Contacts() {
     axios({
       url: `https://localhost:7232/deleteContact?id=${id}`,
       method: "DELETE",
-    }).then((response) => {
-      setContactList(response.data);
-    });
+    })
+      .then((response) => {
+        setContactList(response.data);
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
-    <div className="m-auto p-4 m-4 col-sm-12 col-md-10 col-lg-8">
+    <div className="m-auto p-4 m-4 col-sm-12 col-md-11 col-lg-8">
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
